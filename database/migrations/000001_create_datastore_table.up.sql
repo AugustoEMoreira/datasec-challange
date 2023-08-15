@@ -1,0 +1,7 @@
+CREATE TABLE datastore(
+    id SERIAL PRIMARY KEY NOT NULL,
+    host VARCHAR(256) NOT NULL,
+    port INTEGER NOT NULL,
+    username VARCHAR(256) NOT NULL,
+    pswrd VARCHAR(256) NOT NULL
+)
