@@ -1,0 +1,9 @@
+{
+    "database": {
+      "url": "://root:my-secret-pw@localhost:3306/devtodb"
+    },
+    "server": {
+      "port": "3000"
+    }
+  }
+  
