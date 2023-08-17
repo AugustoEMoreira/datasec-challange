@@ -7,11 +7,9 @@ import (
 )
 
 type Datastorage struct {
-	Id             int64    `json:"id"`
-	User           string   `json:"user"`
-	Host           string   `json:"host"`
-	Port           int      `json:"port"`
-	Classification []string `json:"classes"`
+	Id             int64       `json:"id"`
+	Host           string      `json:"host"`
+	Classification interface{} `json:"classes"`
 }
 
 type DatastorageService interface {

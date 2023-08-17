@@ -10,9 +10,7 @@ import (
 func (repository repository) Create(datastorageRequest *dto.CreateDatastoreRequest) (*domain.Datastorage, error) {
 	ctx := context.Background()
 	ds := domain.Datastorage{
-		User:           datastorageRequest.User,
 		Host:           datastorageRequest.Host,
-		Port:           datastorageRequest.Port,
 		Classification: []string{},
 	}
 
