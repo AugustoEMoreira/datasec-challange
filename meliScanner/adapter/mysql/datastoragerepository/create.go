@@ -14,13 +14,13 @@ func (repository repository) Create(datastorageRequest *dto.CreateDatastoreReque
 		Classification: []string{},
 	}
 
-	query := `INSERT INTO datastorage (user, pass, host, port) values (?,?,?,?)`
+	query := `INSERT INTO datastorage (user, pass, host, port, db) values (?,?,?,?,?)`
 
 	stmt, err := repository.db.PrepareContext(ctx, query)
 	if err != nil {
 		return nil, err
 	}
-	result, err := stmt.Exec(datastorageRequest.User, datastorageRequest.Password, datastorageRequest.Host, datastorageRequest.Port)
+	result, err := stmt.Exec(datastorageRequest.User, datastorageRequest.Password, datastorageRequest.Host, datastorageRequest.Port, datastorageRequest.Database)
 
 	id, err := result.LastInsertId()
 	if err != nil {

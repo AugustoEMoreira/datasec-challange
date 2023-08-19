@@ -6,11 +6,15 @@ import (
 )
 
 type repository struct {
-	db mysql.PoolInterface
+	db       mysql.PoolInterface
+	customDb mysql.CustomPoolInterface
 }
+
+// GetDbConnection implements domain.ScanRepository.
 
 func New(db mysql.PoolInterface) domain.ScanRepository {
 	return &repository{
-		db: db,
+		db:       db,
+		customDb: nil,
 	}
 }

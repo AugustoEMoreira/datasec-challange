@@ -11,7 +11,6 @@ type Datastorage struct {
 	Host           string      `json:"host"`
 	Classification interface{} `json:"classes"`
 }
-
 type DatastorageService interface {
 	Create(response http.ResponseWriter, request *http.Request)
 	Fetch(response http.ResponseWriter, request *http.Request)

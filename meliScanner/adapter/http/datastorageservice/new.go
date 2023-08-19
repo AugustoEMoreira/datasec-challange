@@ -1,6 +1,8 @@
 package datastorageservice
 
-import "github.com/AugustoEMoreira/datasec-challange/core/domain"
+import (
+	"github.com/AugustoEMoreira/datasec-challange/core/domain"
+)
 
 type service struct {
 	usecase domain.DatastorageUseCase

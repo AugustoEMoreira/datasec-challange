@@ -5,19 +5,19 @@ import (
 	"database/sql"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/spf13/viper"
 )
 
-type PoolInterface interface {
+type CustomPoolInterface interface {
+	Conn(driverName string, datasourceName string) (*sql.Conn, error)
 	Close() error
 	QueryContext(ctx context.Context, query string, arguments ...interface{}) (*sql.Rows, error)
 	ExecContext(ctex context.Context, query string, arguments ...interface{}) (sql.Result, error)
 	PrepareContext(ctx context.Context, query string) (*sql.Stmt, error)
 }
 
-func GetMainDBConnection(context context.Context) (*sql.Conn, error) {
-	dbURL := viper.GetString("database.url")
-	db, err := sql.Open("mysql", dbURL)
+func GetCustomConnection(context context.Context, connectionURL string) (*sql.Conn, error) {
+
+	db, err := sql.Open("mysql", connectionURL)
 	if err != nil {
 		return nil, err
 	}

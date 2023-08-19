@@ -1,6 +1,8 @@
 package scanusecase
 
-import "github.com/AugustoEMoreira/datasec-challange/core/domain"
+import (
+	"github.com/AugustoEMoreira/datasec-challange/core/domain"
+)
 
 type usecase struct {
 	repository domain.ScanRepository
