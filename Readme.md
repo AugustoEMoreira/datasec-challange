@@ -81,7 +81,7 @@ response:
 all requests are directed to the stdout using the apache log format.
 
 ## Improvements
-here are a list of things I would like to have done, but i couldn't do to the time constrain:
+here are a list of things I would like to have done, but i couldn't do to the time constraint:
 
  - [ ] Encrypt the database password using an AES key stored in some secret vault(probably AWS secrets manager)
  - [ ] Implement JWT authentication
