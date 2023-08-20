@@ -35,7 +35,7 @@ func main() {
 	router := mux.NewRouter()
 	router.Handle("/api/v1/database", http.HandlerFunc(datastorageservice.Create)).Methods("POST")
 	router.Handle("/api/v1/database/scan/{id}", http.HandlerFunc(datastorageservice.Fetch)).Methods("GET")
-	router.Handle("/api/v1/database/scan", http.HandlerFunc(scanservice.Create)).Methods("POST")
+	router.Handle("/api/v1/database/scan/{id}", http.HandlerFunc(scanservice.Create)).Methods("POST")
 	port := viper.GetString("server.port")
 	log.Printf("LISTEN ON PORT: %v", port)
 	http.ListenAndServe(fmt.Sprintf(":%v", port), router)

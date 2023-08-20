@@ -3,6 +3,7 @@ package scanrepository
 import (
 	"context"
 	"fmt"
+	"net/url"
 
 	"github.com/AugustoEMoreira/datasec-challange/core/dto"
 )
@@ -18,10 +19,13 @@ type queryResult struct {
 // GetDatabaseConnInfo implements domain.ScanRepository.
 func (repository repository) GetDatabaseConnInfo(id string) (dbconnUrl *dto.DbConnectionInfo, err error) {
 	ctx := context.Background()
-	query := `select host,port,password,user,db from datastorage where id = ?`
-	rows, err := repository.db.QueryContext(ctx, query)
+	query := `select host,port,pass,user,db from datastorage where id = ?`
+	stmt, err := repository.db.PrepareContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	rows, err := stmt.Query(id)
 	defer rows.Close()
-
 	if err != nil {
 		return nil, err
 	}
@@ -33,6 +37,8 @@ func (repository repository) GetDatabaseConnInfo(id string) (dbconnUrl *dto.DbCo
 			return nil, err
 		}
 	}
-	dbc.UrlString = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", queryResult.user, queryResult.password, queryResult.host, queryResult.port, queryResult.database)
+
+	escapepassword := url.QueryEscape(queryResult.password)
+	dbc.UrlString = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4", queryResult.user, escapepassword, queryResult.host, queryResult.port, queryResult.database)
 	return &dbc, err
 }

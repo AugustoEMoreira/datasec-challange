@@ -13,6 +13,7 @@ type RulesRegex struct {
 }
 
 type ScanResult struct {
+	Table  string
 	Column string
 	Class  string
 }

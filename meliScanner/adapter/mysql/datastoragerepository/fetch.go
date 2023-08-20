@@ -2,6 +2,7 @@ package datastoragerepository
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/AugustoEMoreira/datasec-challange/core/domain"
 	"github.com/AugustoEMoreira/datasec-challange/core/dto"
@@ -20,7 +21,12 @@ func (repository repository) Fetch(datastorageRequest *dto.FetchDatastoreRequest
 	defer rows.Close()
 
 	for rows.Next() {
-		err := rows.Scan(&ds.Id, &ds.Host, &ds.Classification)
+		var jsonStr []byte
+		err := rows.Scan(&ds.Id, &ds.Host, &jsonStr)
+		if err != nil {
+			return nil, err
+		}
+		err = json.Unmarshal(jsonStr, &ds.Classification)
 		if err != nil {
 			return nil, err
 		}

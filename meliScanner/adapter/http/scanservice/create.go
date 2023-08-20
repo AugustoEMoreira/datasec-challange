@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/AugustoEMoreira/datasec-challange/adapter/mysql"
 	"github.com/AugustoEMoreira/datasec-challange/core/dto"
 	"github.com/gorilla/mux"
 )
@@ -29,12 +30,24 @@ func (service service) Create(response http.ResponseWriter, request *http.Reques
 		return
 	}
 
-	conn, err := service.usecase.GetDbConnection(dsInfo)
+	conn, err := mysql.GetCustomDBConnection(ctx, dsInfo.UrlString)
+	if err != nil {
+		response.WriteHeader(500)
+		response.Write([]byte(err.Error()))
+		return
+	}
+	defer conn.Close()
+
+	if err != nil {
+		response.WriteHeader(500)
+		response.Write([]byte(err.Error()))
+		return
+	}
 
 	var scanResult []dto.ScanResult
 
-	for _, r := range regexRules {
-		query := `select column_name from information_schema.columns where column_name REGEXP ? and table_schema not in ('information_schema', 'performance_schema', 'mysql', 'sys')`
+	for _, r := range *regexRules {
+		query := `select column_name,table_name from information_schema.columns where column_name REGEXP ? and table_schema not in ('information_schema', 'performance_schema', 'mysql', 'sys')`
 		stmt, err := conn.PrepareContext(ctx, query)
 		if err != nil {
 			response.WriteHeader(500)
@@ -45,7 +58,7 @@ func (service service) Create(response http.ResponseWriter, request *http.Reques
 		rows, err := stmt.Query(r.Rule)
 		for rows.Next() {
 			var row dto.ScanResult
-			err := rows.Scan(&row.Column)
+			err := rows.Scan(&row.Column, &row.Table)
 			if err != nil {
 				response.WriteHeader(500)
 				response.Write([]byte(err.Error()))
@@ -56,7 +69,7 @@ func (service service) Create(response http.ResponseWriter, request *http.Reques
 		}
 	}
 
-	err = service.usecase.SaveScan(&scanResult)
+	err = service.usecase.SaveScan(&scanResult, id)
 
 	if err != nil {
 		response.WriteHeader(500)
