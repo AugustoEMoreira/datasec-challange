@@ -104,4 +104,4 @@ here are a list of things I would like to have done, but i couldn't do to the ti
  - [ ] Implement JWT authentication
  - [ ] A route to create new rules
  - [ ] Better way to implement new datastorages(to easily scan things like S3, Athena, or any other type of storage) 
-
+ - [ ] Refactor the code so it can properly adhere to the clean architecture
