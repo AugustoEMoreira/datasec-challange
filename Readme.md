@@ -9,7 +9,7 @@ this is part of the datasec challange interview
 
 I tried to follow as much as possible the clean architecture principles, so each service will have an usecase, services that needs to access any kind of data will also have a repository.
 The folder hierarchy is as follow: 
-── meliScanner
+meliScanner
     ├── adapter
     │   ├── http
     │   │   ├── datastorageservice
