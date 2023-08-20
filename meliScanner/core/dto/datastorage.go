@@ -20,3 +20,13 @@ func FromJSONCreateDatastoreRequest(body io.Reader) (*CreateDatastoreRequest, er
 	}
 	return &createDatastoreRequest, nil
 }
+
+type FetchDatastoreRequest struct {
+	DBId string `json:"id"`
+}
+
+func FromJSONFetchDatastoreRequest(id string) (*FetchDatastoreRequest, error) {
+	FetchDatastoreRequest := FetchDatastoreRequest{}
+	FetchDatastoreRequest.DBId = id
+	return &FetchDatastoreRequest, nil
+}

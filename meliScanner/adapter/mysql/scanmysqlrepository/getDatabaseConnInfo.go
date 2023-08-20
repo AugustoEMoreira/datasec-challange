@@ -31,11 +31,16 @@ func (repository repository) GetDatabaseConnInfo(id string) (dbconnUrl *dto.DbCo
 	}
 	var queryResult queryResult
 	var dbc dto.DbConnectionInfo
+	var count int
 	for rows.Next() {
+		count++
 		err := rows.Scan(&queryResult.host, &queryResult.port, &queryResult.password, &queryResult.user, &queryResult.database)
 		if err != nil {
 			return nil, err
 		}
+	}
+	if count == 0 {
+		return nil, nil
 	}
 
 	escapepassword := url.QueryEscape(queryResult.password)

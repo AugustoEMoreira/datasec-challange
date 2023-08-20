@@ -20,7 +20,9 @@ func (repository repository) Fetch(datastorageRequest *dto.FetchDatastoreRequest
 	rows, err := stmt.Query(datastorageRequest.DBId)
 	defer rows.Close()
 
+	var count int
 	for rows.Next() {
+		count++
 		var jsonStr []byte
 		err := rows.Scan(&ds.Id, &ds.Host, &jsonStr)
 		if err != nil {
@@ -32,6 +34,9 @@ func (repository repository) Fetch(datastorageRequest *dto.FetchDatastoreRequest
 		}
 	}
 
+	if count == 0 {
+		return nil, nil
+	}
 	return &ds, nil
 
 }

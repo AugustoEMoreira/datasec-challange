@@ -3,7 +3,6 @@ package mysql
 import (
 	"context"
 	"database/sql"
-	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/spf13/viper"
@@ -32,7 +31,6 @@ func GetMainDBConnection(context context.Context) (*sql.Conn, error) {
 }
 func GetCustomDBConnection(context context.Context, d string) (*sql.Conn, error) {
 
-	fmt.Println(d)
 	db, err := sql.Open("mysql", d)
 	if err != nil {
 		return nil, err

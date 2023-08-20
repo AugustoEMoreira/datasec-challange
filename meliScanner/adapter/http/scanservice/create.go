@@ -22,6 +22,10 @@ func (service service) Create(response http.ResponseWriter, request *http.Reques
 		response.Write([]byte(err.Error()))
 		return
 	}
+	if dsInfo == nil {
+		response.WriteHeader(404)
+		return
+	}
 
 	regexRules, err := service.usecase.GetRegexRules()
 	if err != nil {

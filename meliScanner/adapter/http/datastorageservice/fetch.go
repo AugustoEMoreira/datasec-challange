@@ -23,6 +23,10 @@ func (service service) Fetch(response http.ResponseWriter, request *http.Request
 		response.Write([]byte(err.Error()))
 		return
 	}
+	if ds == nil {
+		response.WriteHeader(404)
+		return
+	}
 	json.NewEncoder(response).Encode(ds)
 
 }
